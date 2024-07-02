@@ -27,9 +27,12 @@ public class ArticleController {
 
     public static void list(String cmd) {
         System.out.println("==게시글 목록==");
+        int s= 3;
         if (articles.size() == 0) {
             System.out.println("아무것도 없어");
         } else {
+
+            if (cmd.split(" ").length == 3) {System.out.println("검색어 : " + cmd.split(" ")[2]);s = 0;}
             System.out.println("  번호   /    날짜   /   제목   /   내용   ");
 
 
@@ -37,6 +40,7 @@ public class ArticleController {
                 int a = 0;
                 if (cmd.split(" ").length == 3 && articles.get(i).getTitle().contains(cmd.split(" ")[2])) {
                     a = 1;
+                    s = 1;
                 }
                 if (a == 0 && cmd.split(" ").length == 3) {
                     continue;
@@ -48,6 +52,9 @@ public class ArticleController {
                 } else {
                     System.out.printf("  %d   /   %s      /   %s   /   %s  \n", article.getId(), article.getRegDate().split(" ")[0], article.getTitle(), article.getBody());
                 }
+            }
+            if (s == 0){
+                System.out.println("검색결과가 없습니다.");
             }
         }
     }
