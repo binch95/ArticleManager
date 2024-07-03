@@ -9,39 +9,33 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.koreait.App.sighUp;
-
 public class Login {
     public static List<Member> sighUp = new ArrayList<>();
-    static byte man = 1;
+    static String man = "";
+    public static byte log = 0;
 
     public static void start() {
         makeTestMember();
-        while (man == 1) {
-            System.out.print("1.회원가입\n2.로그인\n명령어) ");
+        while (man.equals("")) {
+            System.out.print("==ArticleManager==\n1.회원가입\n2.로그인\n3.게스트모드\n명령어) ");
             String start = Container.getScanner().nextLine();
-            while (true) {
+            if (start.equals("exit")) {
+                System.out.println("==프로그램 종료==");
+                break;
+            }
+            while (log == 0) {
                 if (start.equals("1")) {
                     MemberController.sighup();
                     break;
                 } else if (start.equals("2")) {
-                    System.out.println("== Login ==");
-                    System.out.print("아이디 : ");
-                    String loGinid = Container.getScanner().nextLine();
-                    System.out.print("패스워드 : ");
-                    String loGinpw = Container.getScanner().nextLine();
-                    if(sighUp.stream().filter(e->e.getLoginId().equals(loGinid)).count() == 0){
-                        System.out.println("입력하신 아이디는 없습니다. 다시 확인해주세요");
-                        continue;
-                    }
-                    Member loginIm = sighUp.stream().filter(e -> e.getLoginId().equals(loGinid)).toList().get(0);
-                    if (loginIm.getLoginId().equals(loGinid) && loginIm.getLoginpw().equals(loGinpw)) {
-                        System.out.println(loginIm.getName() + "님 로그인 되었습니다.");
-                        new App().run();
-                        break;
-                    } else {
-                        System.out.println("아이디 또는 패스워드를 확인해주세요");
-                    }
+                    MemberController.join();
+
+                } else if (start.equals("3")) {
+                    new App().run("");
+                    break;
+                }else {
+                    System.out.println("잘못된 명령어");
+                    break;
                 }
             }
 

@@ -9,7 +9,7 @@ import static org.koreait.App.articles;
 public class ArticleController {
     static Article foundArticle = null;
 
-    public static void write() {
+    public static void write(String name) {
         System.out.println("==게시글 작성==");
         int id = articles.size() + 1;
         String regDate = Util.getNow();
@@ -19,7 +19,7 @@ public class ArticleController {
         System.out.print("내용 : ");
         String body = Container.getScanner().nextLine();
 
-        Article article = new Article(id, regDate, updateDate, title, body);
+        Article article = new Article(id, regDate, updateDate, title, body,name);
         articles.add(article);
         System.out.println(id + "번 글이 생성되었습니다");
     }
@@ -48,9 +48,9 @@ public class ArticleController {
 
                 Article article = articles.get(i);
                 if (Util.getNow().split(" ")[0].equals(article.getRegDate().split(" ")[0])) {
-                    System.out.printf("  %d   /   %s      /   %s   /   %s  \n", article.getId(), article.getRegDate().split(" ")[1], article.getTitle(), article.getBody());
+                    System.out.printf("  %d   /   %s    /   %s   /   %s  \n", article.getId(), article.getRegDate().split(" ")[1], article.getTitle(), article.getBody());
                 } else {
-                    System.out.printf("  %d   /   %s      /   %s   /   %s  \n", article.getId(), article.getRegDate().split(" ")[0], article.getTitle(), article.getBody());
+                    System.out.printf("  %d   /   %s    /   %s   /   %s  \n", article.getId(), article.getRegDate().split(" ")[0], article.getTitle(), article.getBody());
                 }
             }
             if (s == 0){
@@ -77,7 +77,7 @@ public class ArticleController {
     }
 
 
-    public static void delete(String cmd) {
+    public static void delete(String cmd, String name) {
         System.out.println("==게시글 삭제==");
 
         int id = Integer.parseInt(cmd.split(" ")[2]);
@@ -87,11 +87,16 @@ public class ArticleController {
             System.out.println("해당 게시글은 없습니다");
             return;
         }
+        if (foundArticle.getName().equals(name)) {
         articles.remove(foundArticle);
         System.out.println(id + "번 게시글이 삭제되었습니다");
+        }else {
+            System.out.println("해당 게시물은 삭제할 권리가 없습니다.");
+        }
     }
 
-    public static void modify(String cmd) {
+
+    public static void modify(String cmd, String name) {
         System.out.println("==게시글 수정==");
 
         int id = Integer.parseInt(cmd.split(" ")[2]);
@@ -101,6 +106,7 @@ public class ArticleController {
             System.out.println("해당 게시글은 없습니다");
             return;
         }
+        if (foundArticle.getName().equals(name)) {
         System.out.println("기존 제목 : " + foundArticle.getTitle());
         System.out.println("기존 내용 : " + foundArticle.getBody());
         System.out.print("새 제목 : ");
@@ -113,6 +119,9 @@ public class ArticleController {
         foundArticle.setUpdateDate(Util.getNow());
 
         System.out.println(id + "번 게시글이 수정되었습니다");
+        }else {
+            System.out.println("해당 게시물은 수정할 권리가 없습니다.");
+        }
     }
 
     static Article number(int id){
