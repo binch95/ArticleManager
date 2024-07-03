@@ -28,6 +28,9 @@ public class App {
                     continue;
                 }
                 if (cmd.equals("exit")) {
+                    Login.man = 0;
+                    break;
+                } else if (cmd.equals("logout")) {
                     break;
                 }
 
@@ -56,7 +59,7 @@ public class App {
 
             }
             System.out.println("==프로그램 종료==");
-            Container.close();
+            if(Login.man == 0){ Container.close();}
 
         }
 
